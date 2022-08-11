@@ -8,9 +8,9 @@ namespace GameEngine
     public class PlayerCharacter : INotifyPropertyChanged
     {
         private int _health = 100;
-        
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string FullName => $"{FirstName} {LastName}";
         public string Nickname { get; set; }
         public int Health
