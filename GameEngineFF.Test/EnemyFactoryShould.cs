@@ -58,5 +58,15 @@ public class EnemyFactoryShould
         //Assert.IsType<Enemy>(enemy);
         Assert.IsAssignableFrom<Enemy>(enemy);
     }
-    
+
+    [Fact]
+    public void CreateSeparateInstances()
+    {
+        EnemyFactory sut = new();
+
+        Enemy enemy1 = sut.Create("Zombie");
+        Enemy enemy2 = sut.Create("Zombie");
+
+        Assert.NotSame(enemy1, enemy2);
+    }
 }
