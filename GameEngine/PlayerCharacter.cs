@@ -12,7 +12,7 @@ namespace GameEngine
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";
-        public string Nickname { get; set; } = string.Empty;
+        public string Nickname { get; set; }
         public int Health
         {
             get => _health;
