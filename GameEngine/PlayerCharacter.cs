@@ -12,7 +12,7 @@ namespace GameEngine
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";
-        public string Nickname { get; set; }
+        public string Nickname { get; set; } = string.Empty;
         public int Health
         {
             get => _health;
@@ -23,9 +23,9 @@ namespace GameEngine
             }
         }
         public bool IsNoob { get; set; }
-        public List<string> Weapons { get; set; }
+        public List<string> Weapons { get; set; } = new();
 
-        public event EventHandler<EventArgs> PlayerSlept;
+        public event EventHandler<EventArgs> PlayerSlept = delegate { };
 
         public PlayerCharacter()
         {
@@ -88,9 +88,9 @@ namespace GameEngine
             };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
