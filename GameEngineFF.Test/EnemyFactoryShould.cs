@@ -2,9 +2,10 @@
 
 namespace GameEngine.Tests;
 
+[Trait("Category", "Enemy")]
 public class EnemyFactoryShould
 {
-    [Fact]
+    [Fact]    
     public void CreateNormalEnemyDefault()
     {
         EnemyFactory sut = new();
