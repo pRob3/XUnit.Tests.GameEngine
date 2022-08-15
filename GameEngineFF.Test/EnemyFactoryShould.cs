@@ -69,4 +69,23 @@ public class EnemyFactoryShould
 
         Assert.NotSame(enemy1, enemy2);
     }
+
+    [Fact]
+    public void NotAllowNullName()
+    {
+        EnemyFactory sut = new();
+        
+        //Assert.Throws<ArgumentNullException>(() => sut.Create(null));
+        Assert.Throws<ArgumentNullException>("name", () => sut.Create(null));
+    }
+
+    [Fact]
+    public void OnlyAllowKingOrQueenBoosEnemies()
+    {
+        EnemyFactory sut = new();
+
+        EnemyCreationException ex = Assert.Throws<EnemyCreationException>(() => sut.Create("Zombie", true));
+
+        Assert.Equal("Zombie", ex.RequestedEnemyName);
+    }
 }
