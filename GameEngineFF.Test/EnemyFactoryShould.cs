@@ -15,7 +15,7 @@ public class EnemyFactoryShould
         Assert.IsType<NormalEnemy>(enemy);
     }
 
-    [Fact]
+    [Fact(Skip = "Don't need to run this (skip test)")]
     public void CreateNormalEnemyByDefault_NotTypeExample()
     {
         EnemyFactory sut = new();
