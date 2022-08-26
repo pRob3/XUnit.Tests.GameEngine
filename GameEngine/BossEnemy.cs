@@ -1,8 +1,7 @@
-﻿namespace GameEngine
+﻿namespace GameEngine;
+
+public class BossEnemy : Enemy
 {
-    public class BossEnemy : Enemy
-    {
-        public override double TotalSpecialPower => 1000;
-        public override double SpecialPowerUses => 6;
-    }
+    public override double TotalSpecialPower => 1000;
+    public override double SpecialPowerUses => 6;
 }
