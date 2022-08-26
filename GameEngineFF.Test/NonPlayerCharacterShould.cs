@@ -15,4 +15,17 @@ public class NonPlayerCharacterShould
 
         Assert.Equal(expectedHealth, sut.Health);
     }
+
+    [Theory]
+    [MemberData(
+        nameof(ExternalHealthDamageTestData.TestData), 
+        MemberType = typeof(ExternalHealthDamageTestData))]
+    public void TakeDamageFromExternalTestData(int damage, int expectedHealth)
+    {
+        NonPlayerCharacter sut = new NonPlayerCharacter();
+
+        sut.TakeDamage(damage);
+
+        Assert.Equal(expectedHealth, sut.Health);
+    }
 }
