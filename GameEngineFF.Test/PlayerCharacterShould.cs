@@ -45,7 +45,7 @@ public class PlayerCharacterShould : IDisposable
     {
 
         _sut.FirstName = "John";
-            _sut.LastName = "Smith";
+        _sut.LastName = "Smith";
 
         Assert.StartsWith("John", _sut.FullName);
     }
@@ -162,6 +162,16 @@ public class PlayerCharacterShould : IDisposable
     public void RaisePropertyChangedEvent()
     {
         Assert.PropertyChanged(_sut, "Health", () => _sut.TakeDamage(10));
+    }
+    
+    [Theory]
+    //[MemberData(nameof(ExternalHealthDamageTestData.TestData), MemberType = typeof(ExternalHealthDamageTestData))]
+    [HealthDamageData]
+    public void TakeDamage(int damage, int expectedHealth)
+    {
+        _sut.TakeDamage(damage);
+
+        Assert.Equal(expectedHealth, _sut.Health);
     }
 
 }
