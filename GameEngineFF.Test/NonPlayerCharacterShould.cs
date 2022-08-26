@@ -28,4 +28,15 @@ public class NonPlayerCharacterShould
 
         Assert.Equal(expectedHealth, sut.Health);
     }
+
+    [Theory]
+    [HealthDamageData]
+    public void TakeDamageAttribute(int damage, int expectedHealth)
+    {
+        NonPlayerCharacter sut = new NonPlayerCharacter();
+
+        sut.TakeDamage(damage);
+
+        Assert.Equal(expectedHealth, sut.Health);
+    }
 }
