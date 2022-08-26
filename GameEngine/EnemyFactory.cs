@@ -1,32 +1,31 @@
 ﻿using System;
 
-namespace GameEngine
+namespace GameEngine;
+
+public class EnemyFactory
 {
-    public class EnemyFactory
+    public Enemy Create(string name, bool isBoss = false)
     {
-        public Enemy Create(string name, bool isBoss = false)
+        if (name is null)
         {
-            if (name is null)
+            throw new ArgumentNullException(nameof(name));
+        }
+        
+        if (isBoss)
+        {
+            if (!IsValidBossName(name))
             {
-                throw new ArgumentNullException(nameof(name));
-            }
-            
-            if (isBoss)
-            {
-                if (!IsValidBossName(name))
-                {
-                    throw new EnemyCreationException(
-                        $"{name} is not a valid name for a Boss enemy, Boss enemy names must end with 'King' or 'Queen'",
-                        name);
-                }
-
-                return new BossEnemy {Name = name};
+                throw new EnemyCreationException(
+                    $"{name} is not a valid name for a Boss enemy, Boss enemy names must end with 'King' or 'Queen'",
+                    name);
             }
 
-            return new NormalEnemy { Name = name };
+            return new BossEnemy {Name = name};
         }
 
-        private bool IsValidBossName(string name) => name.EndsWith("King") || 
-                                                     name.EndsWith("Queen");
+        return new NormalEnemy { Name = name };
     }
+
+    private bool IsValidBossName(string name) => name.EndsWith("King") || 
+                                                 name.EndsWith("Queen");
 }

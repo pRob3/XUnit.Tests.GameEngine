@@ -3,96 +3,95 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GameEngine
+namespace GameEngine;
+
+public class PlayerCharacter : INotifyPropertyChanged
 {
-    public class PlayerCharacter : INotifyPropertyChanged
+    private int _health = 100;
+
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string FullName => $"{FirstName} {LastName}";
+    public string Nickname { get; set; }
+    public int Health
     {
-        private int _health = 100;
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
-        public string Nickname { get; set; }
-        public int Health
+        get => _health;
+        set
         {
-            get => _health;
-            set
-            {
-                _health = value; 
-                OnPropertyChanged();
-            }
+            _health = value; 
+            OnPropertyChanged();
         }
-        public bool IsNoob { get; set; }
-        public List<string> Weapons { get; set; } = new();
+    }
+    public bool IsNoob { get; set; }
+    public List<string> Weapons { get; set; } = new();
 
-        public event EventHandler<EventArgs> PlayerSlept = delegate { };
+    public event EventHandler<EventArgs> PlayerSlept = delegate { };
 
-        public PlayerCharacter()
+    public PlayerCharacter()
+    {
+        FirstName = GenerateRandomFirstName();
+
+        IsNoob = true;
+
+        CreateStartingWeapons();
+    }
+
+    public void Sleep()
+    {           
+        var healthIncrease = CalculateHealthIncrease();            
+
+        Health += healthIncrease;
+
+        OnPlayerSlept(EventArgs.Empty);
+    }
+
+    private int CalculateHealthIncrease()
+    {
+        var rnd = new Random();
+
+        return rnd.Next(1, 101);
+    }
+
+    
+    protected virtual void OnPlayerSlept(EventArgs e)
+    {
+        PlayerSlept?.Invoke(this, e);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health = Math.Max(1, Health -= damage);
+    }
+
+    private string GenerateRandomFirstName()
+    {
+        var possibleRandomStartingNames = new[]
         {
-            FirstName = GenerateRandomFirstName();
+            "Danieth",
+            "Derick",
+            "Shalnorr",
+            "G'Toth'lop",
+            "Boldrakteethtop"
+        };
 
-            IsNoob = true;
+        return possibleRandomStartingNames[
+            new Random().Next(0, possibleRandomStartingNames.Length)];
+    }
 
-            CreateStartingWeapons();
-        }
-
-        public void Sleep()
-        {           
-            var healthIncrease = CalculateHealthIncrease();            
-
-            Health += healthIncrease;
-
-            OnPlayerSlept(EventArgs.Empty);
-        }
-
-        private int CalculateHealthIncrease()
+    private void CreateStartingWeapons()
+    {
+        Weapons = new List<string>
         {
-            var rnd = new Random();
+            "Long Bow",
+            "Short Bow",
+            "Short Sword",
+        };
+    }
 
-            return rnd.Next(1, 101);
-        }
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-        
-        protected virtual void OnPlayerSlept(EventArgs e)
-        {
-            PlayerSlept?.Invoke(this, e);
-        }
-
-        public void TakeDamage(int damage)
-        {
-            Health = Math.Max(1, Health -= damage);
-        }
-
-        private string GenerateRandomFirstName()
-        {
-            var possibleRandomStartingNames = new[]
-            {
-                "Danieth",
-                "Derick",
-                "Shalnorr",
-                "G'Toth'lop",
-                "Boldrakteethtop"
-            };
-
-            return possibleRandomStartingNames[
-                new Random().Next(0, possibleRandomStartingNames.Length)];
-        }
-
-        private void CreateStartingWeapons()
-        {
-            Weapons = new List<string>
-            {
-                "Long Bow",
-                "Short Bow",
-                "Short Sword",
-            };
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
